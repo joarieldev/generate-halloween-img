@@ -1,5 +1,6 @@
 import { Upload } from '@/components/Upload'
 import { List } from '../components/List';
+import { Upload2 } from '@/components/Upload2';
 
 export default async function Home() {
 
@@ -10,7 +11,7 @@ export default async function Home() {
       </header>
       <main className="flex flex-col gap-8 items-center justify-center">
         <section>
-          <Upload />
+          <Upload2 />
         </section>
         <section className="grid grid-cols-3 gap-12">
           <List/>
