@@ -16,7 +16,7 @@ export const Img = ({ image, handleDelete }: Props) => {
       >
         x
       </button>
-      <Link href={`/generar/${image.public_id}`}>
+      <Link href={`/edit/${image.public_id}`}>
         <CldImage
           width={200}
           height={200}

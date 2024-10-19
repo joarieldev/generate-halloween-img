@@ -31,7 +31,7 @@ export const Upload = () => {
       const data = await res.json()
       console.log(data)
 
-      router.push(`/generar/${data.result.public_id}`)
+      router.push(`/edit/${data.result.public_id}`)
 
       setLoading(false)
       body.style.overflow = ''
