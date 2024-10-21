@@ -12,6 +12,15 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      animation: {
+        'parpadeo': 'parpadeo 4s infinite ease-in-out',
+      },
+      keyframes: {
+        parpadeo: {
+          '0%, 100%': { filter: 'brightness(0.9)', opacity: '0.95' },
+          '50%': { filter: 'brightness(1.3)', opacity: '0.9' },
+        },
+      }
     },
   },
   plugins: [],

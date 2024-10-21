@@ -135,15 +135,18 @@ export const Editar = () => {
       <TwoUp imgOriginal={url} imgPreview={imgPreview} />
       <aside
         className="
-        fixed min-w-96 rounded-lg bg-neutral-900
+        fixed min-w-96 rounded-lg bg-zinc-900/95
         right-0 bottom-0 top:auto left-0 max-md:h-80
         md:right-0 md:bottom-0 md:left-auto
         lg:right-6 lg:bottom-6
         flex flex-col gap-8 max-md:gap-4"
       >
-        <div className="h-full overflow-auto px-6 pt-6 pb-1 space-y-6">
-          <header className="flex justify-between relative">
-            <h1 className="text-xl">Configuraciónes</h1>
+        <div className="h-full overflow-auto px-6 pt-6 pb-1 flex flex-col gap-6 relative">
+          <img src="/araña.webp" alt="araña" className="absolute h-auto w-16 right-6 top-6" />
+          <img src="/araña2.webp" alt="araña2" className="absolute h-auto w-16 right-6 top-44" />
+          <img src="/velas.webp" alt="velas" className="absolute h-auto w-24 right-6 top-[520px] animate-parpadeo" />
+          <header className="flex items-center gap-2 relative">
+            <h1 className="text-base">Configuraciónes</h1>
             <div className="group">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -160,7 +163,7 @@ export const Editar = () => {
                 <path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0M12 9h.01" />
                 <path d="M11 12h1v4h1" />
               </svg>
-              <div className="hidden bg-neutral-900/90 w-56 p-2 rounded-lg absolute right-0 top-8 group-hover:flex flex-col">
+              <div className="hidden bg-black/95 w-56 p-2 rounded-lg absolute right-0 top-8 group-hover:flex flex-col">
                 <p>
                   <strong>Nota:</strong> Si eliges más de dos configuraciones,
                   obtendrás resultados diferentes a los de una sola.
@@ -173,11 +176,11 @@ export const Editar = () => {
             </div>
           </header>
           <section className="space-y-2">
-            <h2 className="text-lg">Personalizar fondo</h2>
+            <h2 className="text-base">Personalizar fondo</h2>
             <article className="flex flex-wrap gap-4">
               <select
                 name="topic"
-                className="border border-gray-200 rounded-md bg-black py-2 px-4"
+                className="border border-gray-200 focus:border-orange-500 outline-none rounded-md bg-neutral-900 py-2 px-4"
                 onChange={handleChange}
               >
                 <option value="custom">Ninguno</option>
@@ -197,35 +200,35 @@ export const Editar = () => {
             </article>
           </section>
           <section className="space-y-2">
-            <h2 className="text-lg">Escala de grises</h2>
+            <h2 className="text-base">Escala de grises</h2>
             <article className="flex flex-wrap gap-4">
               <input
                 type="checkbox"
-                className="rounded-md accent-orange-600 size-5"
+                className="rounded-md accent-orange-500 size-5"
                 checked={scale}
                 onChange={() => setScale(!scale)}
               />
             </article>
           </section>
           <section className="space-y-2">
-            <h2 className="text-lg">Borrar objeto</h2>
+            <h2 className="text-base">Borrar objeto</h2>
             <article className="flex flex-wrap gap-4">
               <input
                 name="remove"
                 type="text"
-                className="border border-gray-200 rounded-md bg-black py-2 px-4"
+                className="border border-gray-200 focus:border-orange-500 outline-none rounded-md bg-neutral-900 py-2 px-4"
                 placeholder="Ej: eliminar vaso..."
                 onChange={handleChangeInput}
               />
             </article>
           </section>
           <section className="space-y-2">
-            <h2 className="text-lg">Remplazar objeto</h2>
+            <h2 className="text-base">Remplazar objeto</h2>
             <article className="flex flex-wrap gap-4">
               <input
                 name="remplace"
                 type="text"
-                className="border border-gray-200 rounded-md bg-black py-2 px-4"
+                className="border border-gray-200 focus:border-orange-500 outline-none rounded-md bg-neutral-900 py-2 px-4"
                 placeholder="Ej: oso:gato"
                 onChange={handleChangeInput}
                 list="remplace-list"
@@ -239,11 +242,11 @@ export const Editar = () => {
             </article>
           </section>
           <section className="space-y-2">
-            <h2 className="text-lg">Ajustar aspecto</h2>
+            <h2 className="text-base">Ajustar aspecto</h2>
             <article>
               <select
                 name="aspect"
-                className="border border-gray-200 rounded-md bg-black py-2 px-4"
+                className="border border-gray-200 focus:border-orange-500 outline-none rounded-md bg-neutral-900 py-2 px-4"
                 onChange={handleChange}
               >
                 <option value="custom">Ninguno</option>
@@ -254,11 +257,11 @@ export const Editar = () => {
             </article>
           </section>
           <section>
-            <h2 className="text-lg">Imagen a video</h2>
+            <h2 className="text-base">Imagen a video</h2>
             <article>
               <select
                 name="toVideo"
-                className="border border-gray-200 rounded-md bg-black py-2 px-4"
+                className="border border-gray-200 focus:border-orange-500 outline-none rounded-md bg-neutral-900 py-2 px-4"
                 onChange={handleChange}
               >
                 <option value="custom">Ninguno</option>
@@ -271,10 +274,11 @@ export const Editar = () => {
         <div className="px-6 pb-6 flex justify-between items-center">
           <div className="flex gap-4">
             <button
-              className="py-2 px-4 border border-gray-200 rounded-md"
+              className="py-2 px-4 border border-orange-600 active:border-orange-500 rounded-md flex gap-2"
               onClick={handleGenerar}
             >
               Generar
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z"/><path d="M16 18a2 2 0 0 1 2 2 2 2 0 0 1 2-2 2 2 0 0 1-2-2 2 2 0 0 1-2 2zm0-12a2 2 0 0 1 2 2 2 2 0 0 1 2-2 2 2 0 0 1-2-2 2 2 0 0 1-2 2zM9 18a6 6 0 0 1 6-6 6 6 0 0 1-6-6 6 6 0 0 1-6 6 6 6 0 0 1 6 6z"/></svg>
             </button>
             {imgPreview !== url && topic !== 'custom' && (
               <button
@@ -282,6 +286,7 @@ export const Editar = () => {
                   setSeed((seed) => seed + 1)
                 }}
                 title="Otro fondo"
+                className="text-gray-200 active:text-orange-500"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -301,10 +306,11 @@ export const Editar = () => {
             )}
           </div>
           <button
-            className="py-2 px-4 border border-gray-200 rounded-md"
+            className="py-2 px-4 border border-orange-600 active:border-orange-500 rounded-md flex gap-2"
             onClick={() => downloadImage()}
           >
             Descargar
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 11l5 5 5-5M12 4v12"/></svg>
           </button>
         </div>
       </aside>
