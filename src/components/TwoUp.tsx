@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { toast, Toaster } from 'sonner'
 import 'two-up-element'
 
 interface Props {
@@ -16,6 +17,7 @@ export const TwoUp = ({ imgOriginal, imgPreview }: Props) => {
   const [imgY, setImgY] = useState(0)
   const [scale, setScale] = useState(2)
   const [isMobile, setIsMobile] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const container = containerRef.current
@@ -76,57 +78,88 @@ export const TwoUp = ({ imgOriginal, imgPreview }: Props) => {
     } else {
       setIsVideo(false)
     }
+    if (imgPreview !== imgOriginal) setIsLoading(true)
   }, [imgPreview])
 
   return (
-    <section ref={containerRef} className="min-h-screen overflow-hidden">
-      <two-up orientation={isMobile ? 'vertical' : 'horizontal'}>
-        <div className="min-h-screen w-screen grid place-items-center">
-          <div
-            ref={imgRef}
-            className="h-auto w-80"
-            style={{
-              transform: `translate(${imgX}px, ${imgY}px) scale(${scale})`,
-              transition: 'transform 0.05s',
-            }}
-          >
-            <img
-              id="original"
-              src={imgOriginal}
-              alt="img original"
-              className="rounded pointer-events-none"
-            />
-          </div>
-        </div>
-        <div className="min-h-screen w-screen grid place-items-center">
-          <div
-            ref={imgRef}
-            className="h-auto w-80"
-            style={{
-              transform: `translate(${imgX}px, ${imgY}px) scale(${scale})`,
-              transition: 'transform 0.05s',
-            }}
-          >
-            <img
-              id="preview"
-              src={imgPreview}
-              alt="img preview"
-              className={`rounded pointer-events-none ${
-                isVideo ? 'hidden' : ''
-              }`}
-            />
-            <video
-              ref={videoRef}
-              autoPlay
-              controls
-              loop
-              className={`rounded ${isVideo ? '' : 'hidden'}`}
+    <>
+      <Toaster position="top-right" richColors />
+      <section ref={containerRef} className="min-h-screen overflow-hidden">
+        <two-up orientation={isMobile ? 'vertical' : 'horizontal'}>
+          <div className="min-h-screen w-screen grid place-items-center">
+            <div
+              ref={imgRef}
+              className="h-auto w-80"
+              style={{
+                transform: `translate(${imgX}px, ${imgY}px) scale(${scale})`,
+                transition: 'transform 0.05s',
+              }}
             >
-              <source src={imgPreview} type="video/mp4" />
-            </video>
+              <img
+                id="original"
+                src={imgOriginal}
+                alt="img original"
+                className="rounded pointer-events-none"
+              />
+            </div>
           </div>
-        </div>
-      </two-up>
-    </section>
+          <div className="min-h-screen w-screen grid place-items-center">
+            <div
+              ref={imgRef}
+              className="h-auto w-80"
+              style={{
+                transform: `translate(${imgX}px, ${imgY}px) scale(${scale})`,
+                transition: 'transform 0.05s',
+              }}
+            >
+              {isLoading && (
+                <div className="grid place-items-center h-full w-full absolute bg-black/50">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeLinecap="round" className="animate-spin" strokeLinejoin="round" strokeWidth="2"  viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z"/><path d="M12 3a9 9 0 1 0 9 9"/></svg>
+                </div>
+              )}
+              <img
+                id="preview"
+                src={imgPreview}
+                alt="img preview"
+                className={`rounded pointer-events-none ${
+                  isVideo ? 'hidden' : ''
+                }`}
+                onLoad={() => {
+                  if(imgPreview !== imgOriginal){
+                    setIsLoading(false)
+                  }
+                }}
+                onError={() => {
+                  if(imgPreview !== imgOriginal){
+                    toast.error('Error, intenta otra vez Generar')
+                    setIsLoading(false)
+                  }
+                }}
+              />
+              <video
+                ref={videoRef}
+                autoPlay
+                controls
+                loop
+                className={`rounded ${isVideo ? '' : 'hidden'}`}
+                onLoad={() => {
+                  if(imgPreview !== imgOriginal){
+                    setIsLoading(false)
+                  }
+                }}
+                onError={() => {
+                  if(imgPreview !== imgOriginal){
+                    toast.error('Error, intenta otra vez Generar')
+                    setIsLoading(false)
+                  }
+                }}              
+              >
+                <source src={imgPreview} type="video/mp4" />
+              </video>
+            </div>
+          </div>
+        </two-up>
+      </section>
+    </>
   )
 }

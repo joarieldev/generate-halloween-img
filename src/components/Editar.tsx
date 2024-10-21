@@ -2,7 +2,7 @@
 
 import { getCldImageUrl } from 'next-cloudinary'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TwoUp } from './TwoUp'
 
 const TOPICS = {
@@ -40,6 +40,7 @@ export const Editar = () => {
   const [imgPreview, setImgPreview] = useState(url)
 
   const [topic, setTopic] = useState<keyof typeof TOPICS>('custom')
+  const [seed, setSeed] = useState(0)
   const [scale, setScale] = useState(false)
   const [remove, setRemove] = useState('')
   const [remplace, setRemplace] = useState('')
@@ -47,10 +48,12 @@ export const Editar = () => {
   const [toVideo, setToVideo] = useState<keyof typeof TOVIDEO>('custom')
 
   const handleGenerar = () => {
-    console.log('generar')
     const newUrl = getCldImageUrl({
       src: id,
-      replaceBackground: topic === 'custom' ? '' : TOPICS[topic],
+      replaceBackground:
+        topic === 'custom'
+          ? ''
+          : { prompt: TOPICS[topic], seed: seed === 0 ? undefined : seed },
       grayscale: scale,
       remove: remove === '' ? '' : { prompt: remove, removeShadow: true },
       replace:
@@ -79,9 +82,9 @@ export const Editar = () => {
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(scale)
     if (e.target.name === 'topic') {
       setTopic(e.target.value as keyof typeof TOPICS)
+      setSeed(0)
     }
     if (e.target.name === 'aspect') {
       setAspect(e.target.value as keyof typeof ASPECT)
@@ -97,7 +100,6 @@ export const Editar = () => {
     }
     if (e.target.name === 'remplace') {
       setRemplace(e.target.value)
-      console.log(e.target.value.split(':')[0], e.target.value.split(':')[1])
     }
   }
 
@@ -121,6 +123,13 @@ export const Editar = () => {
     link.parentNode?.removeChild(link)
     window.URL.revokeObjectURL(url)
   }
+
+  useEffect(() => {
+    if (imgPreview !== url) {
+      handleGenerar()
+    }
+  }, [seed])
+
   return (
     <>
       <TwoUp imgOriginal={url} imgPreview={imgPreview} />
@@ -133,8 +142,35 @@ export const Editar = () => {
         flex flex-col gap-8 max-md:gap-4"
       >
         <div className="h-full overflow-auto px-6 pt-6 pb-1 space-y-6">
-          <header>
+          <header className="flex justify-between relative">
             <h1 className="text-xl">Configuraciónes</h1>
+            <div className="group">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" />
+                <path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0M12 9h.01" />
+                <path d="M11 12h1v4h1" />
+              </svg>
+              <div className="hidden bg-neutral-900/90 w-56 p-2 rounded-lg absolute right-0 top-8 group-hover:flex flex-col">
+                <p>
+                  <strong>Nota:</strong> Si eliges más de dos configuraciones,
+                  obtendrás resultados diferentes a los de una sola.
+                </p>
+                <p>
+                  Recuerda que la inteligencia artificial no es perfecta y los
+                  resultados pueden variar de lo esperado.
+                </p>
+              </div>
+            </div>
           </header>
           <section className="space-y-2">
             <h2 className="text-lg">Personalizar fondo</h2>
@@ -154,7 +190,9 @@ export const Editar = () => {
                 <option value="monstruos">Monstruos</option>
                 <option value="telarañas">Telarañas</option>
                 <option value="esqueletos">Esqueletos</option>
-                <option value="criaturas_del_bosque">Criaturas del bosque</option>
+                <option value="criaturas_del_bosque">
+                  Criaturas del bosque
+                </option>
               </select>
             </article>
           </section>
@@ -230,13 +268,38 @@ export const Editar = () => {
             </article>
           </section>
         </div>
-        <div className="px-6 pb-6 flex justify-between">
-          <button
-            className="py-2 px-4 border border-gray-200 rounded-md"
-            onClick={handleGenerar}
-          >
-            Generar
-          </button>
+        <div className="px-6 pb-6 flex justify-between items-center">
+          <div className="flex gap-4">
+            <button
+              className="py-2 px-4 border border-gray-200 rounded-md"
+              onClick={handleGenerar}
+            >
+              Generar
+            </button>
+            {imgPreview !== url && topic !== 'custom' && (
+              <button
+                onClick={() => {
+                  setSeed((seed) => seed + 1)
+                }}
+                title="Otro fondo"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" />
+                  <path d="M4.05 11a8 8 0 1 1 .5 4m-.5 5v-5h5" />
+                </svg>
+              </button>
+            )}
+          </div>
           <button
             className="py-2 px-4 border border-gray-200 rounded-md"
             onClick={() => downloadImage()}
