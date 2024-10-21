@@ -67,11 +67,20 @@ export const TwoUp = ({ imgOriginal, imgPreview }: Props) => {
     }
   }, [isDragging, startX, startY, imgX, imgY])
 
+  const videoRef = useRef(null)
+  const [isVideo, setIsVideo] = useState(false)
+  useEffect(() => {
+    if (imgPreview.includes('.mp4')) {
+      setIsVideo(true)
+      videoRef.current?.load()
+    } else {
+      setIsVideo(false)
+    }
+  }, [imgPreview])
+
   return (
     <section ref={containerRef} className="min-h-screen overflow-hidden">
-      <two-up
-        orientation={isMobile ? 'vertical' : 'horizontal'}
-      >
+      <two-up orientation={isMobile ? 'vertical' : 'horizontal'}>
         <div className="min-h-screen w-screen grid place-items-center">
           <div
             ref={imgRef}
@@ -102,8 +111,19 @@ export const TwoUp = ({ imgOriginal, imgPreview }: Props) => {
               id="preview"
               src={imgPreview}
               alt="img preview"
-              className="rounded pointer-events-none"
+              className={`rounded pointer-events-none ${
+                isVideo ? 'hidden' : ''
+              }`}
             />
+            <video
+              ref={videoRef}
+              autoPlay
+              controls
+              loop
+              className={`rounded ${isVideo ? '' : 'hidden'}`}
+            >
+              <source src={imgPreview} type="video/mp4" />
+            </video>
           </div>
         </div>
       </two-up>
