@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { toast, Toaster } from 'sonner'
 import 'two-up-element'
+import { useMediaQuery } from 'react-responsive';
 
 interface Props {
   imgOriginal: string
@@ -16,14 +17,22 @@ export const TwoUp = ({ imgOriginal, imgPreview }: Props) => {
   const [imgX, setImgX] = useState(0)
   const [imgY, setImgY] = useState(0)
   const [scale, setScale] = useState(2)
-  const [isMobile, setIsMobile] = useState(false)
+  const [initialPinchDistance, setInitialPinchDistance] = useState(0)
+  const [lastScale, setLastScale] = useState(1)
+  const [isMyTwoup, setIsMyTwoup] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
+  const isMobile: boolean = useMediaQuery({ query: '(max-width: 768px)' })
 
   useEffect(() => {
     const container = containerRef.current
-    const mediaQuery = window.matchMedia('(max-width: 768px)')
 
-    const handleMediaChange = (e: MediaQueryListEvent) => setIsMobile(e.matches)
+    const myTwoup = container?.querySelector('.styles_two-up-handle__2kVsP')
+    const handleMyTwoupTouchStart = () => {
+      setIsMyTwoup(false)
+    }
+    const handleMyTwoupTouchEnd = () => {
+      setIsMyTwoup(true)
+    }
 
     const handleMouseDown = (e: MouseEvent) => {
       setIsDragging(true)
@@ -36,6 +45,7 @@ export const TwoUp = ({ imgOriginal, imgPreview }: Props) => {
         setImgX(e.clientX - startX)
         setImgY(e.clientY - startY)
         document.body.classList.add('no-select')
+        updateTransform()
       }
     }
 
@@ -52,22 +62,81 @@ export const TwoUp = ({ imgOriginal, imgPreview }: Props) => {
       } else {
         setScale((prevScale) => Math.max(1, prevScale - zoomFactor))
       }
+      updateTransform();
+    }
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (isMyTwoup) {
+        if (e.touches.length === 1) {
+          const touch = e.touches[0]
+          setIsDragging(true)
+          setStartX(touch.clientX - imgX)
+          setStartY(touch.clientY - imgY)
+        } else if (e.touches.length === 2) {
+          setInitialPinchDistance(getPinchDistance(e.touches))
+          setLastScale(scale)
+        }
+      }
+    }
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (isMyTwoup) {
+        if (isDragging && e.touches.length === 1) {
+          const touch = e.touches[0]
+          setImgX(touch.clientX - startX)
+          setImgY(touch.clientY - startY)
+          updateTransform()
+        } else if (e.touches.length === 2) {
+          const currentPinchDistance = getPinchDistance(e.touches)
+          setScale(Math.max(0.1, lastScale * (currentPinchDistance / initialPinchDistance)))
+          updateTransform()
+          e.preventDefault()
+        }
+      }
+    }
+
+    const handleTouchEnd = () => {
+      setIsDragging(false)
+    }
+
+    const getPinchDistance = (touches: TouchList) => {
+      const [touch1, touch2] = [touches[0], touches[1]]
+      const dx = touch1.clientX - touch2.clientX
+      const dy = touch1.clientY - touch2.clientY
+      return Math.sqrt(dx * dx + dy * dy)
+    }
+
+    const updateTransform = () => {
+      const div1 = document.getElementById('div1')
+      const div2 = document.getElementById('div2')
+      if (div1 && div2) {
+        div1.style.transform = `translate(${imgX}px, ${imgY}px) scale(${scale})`
+        div2.style.transform = `translate(${imgX}px, ${imgY}px) scale(${scale})`
+      }
     }
 
     container?.addEventListener('mousedown', handleMouseDown)
     document.addEventListener('mousemove', handleMouseMove)
     document.addEventListener('mouseup', handleMouseUp)
     container?.addEventListener('wheel', handleWheel)
-    mediaQuery.addEventListener('change', handleMediaChange)
+    myTwoup?.addEventListener('touchstart', handleMyTwoupTouchStart)
+    myTwoup?.addEventListener('touchend', handleMyTwoupTouchEnd)
+    container?.addEventListener('touchstart', handleTouchStart)
+    container?.addEventListener('touchmove', handleTouchMove)
+    container?.addEventListener('touchend', handleTouchEnd)
 
     return () => {
       container?.removeEventListener('mousedown', handleMouseDown)
       document.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseup', handleMouseUp)
       container?.removeEventListener('wheel', handleWheel)
-      mediaQuery.removeEventListener('change', handleMediaChange)
+      myTwoup?.removeEventListener('touchstart', handleMyTwoupTouchStart)
+      myTwoup?.removeEventListener('touchend', handleMyTwoupTouchEnd)
+      container?.removeEventListener('touchstart', handleTouchStart)
+      container?.removeEventListener('touchmove', handleTouchMove)
+      container?.removeEventListener('touchend', handleTouchEnd)
     }
-  }, [isDragging, startX, startY, imgX, imgY])
+  }, [isDragging, startX, startY, imgX, imgY, scale, initialPinchDistance ,lastScale, isMyTwoup])
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const [isVideo, setIsVideo] = useState(false)

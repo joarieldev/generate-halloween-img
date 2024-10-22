@@ -148,7 +148,7 @@ export const Editar = () => {
         lg:right-6 lg:bottom-6
         flex flex-col gap-8 max-md:gap-4"
       >
-        <div className="h-full overflow-auto px-6 pt-6 pb-1 flex flex-col gap-6 relative">
+        <div className="h-full overflow-auto px-6 max-md:mt-6 md:pt-6 pb-1 flex flex-col gap-6 relative">
           <img
             src="/araña.webp"
             alt="araña"
