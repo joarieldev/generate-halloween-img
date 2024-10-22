@@ -4,6 +4,7 @@ import { getCldImageUrl } from 'next-cloudinary'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { TwoUp } from './TwoUp'
+import { creepster } from '@/app/fonts/fonts'
 
 const TOPICS = {
   zombis: 'Agrega zombis al fondo de la imagen',
@@ -132,6 +133,12 @@ export const Editar = () => {
 
   return (
     <>
+      <button
+        className={`fixed top-6 left-6 ${creepster.className} py-2 px-4 border border-orange-600 active:border-orange-500 rounded-md z-10 bg-neutral-900 text-gray-300`}
+        onClick={() => window.history.back()}
+      >
+        x
+      </button>
       <TwoUp imgOriginal={url} imgPreview={imgPreview} />
       <aside
         className="
@@ -142,9 +149,27 @@ export const Editar = () => {
         flex flex-col gap-8 max-md:gap-4"
       >
         <div className="h-full overflow-auto px-6 pt-6 pb-1 flex flex-col gap-6 relative">
-          <img src="/araña.webp" alt="araña" className="absolute h-auto w-16 right-6 top-6" />
-          <img src="/araña2.webp" alt="araña2" className="absolute h-auto w-16 right-6 top-44" />
-          <img src="/velas.webp" alt="velas" className="absolute h-auto w-24 right-6 top-[520px] animate-parpadeo" />
+          <img
+            src="/araña.webp"
+            alt="araña"
+            className="absolute h-auto w-14 right-20 top-48 saturate-50"
+            style={{
+              transform: 'perspective(400px) rotateY(-135deg) rotateX(140deg)',
+            }}
+          />
+          <img
+            src="/araña2.webp"
+            alt="araña2"
+            className="absolute h-auto w-20 right-6 top-6"
+          />
+          <img
+            src="/araña.webp"
+            alt="araña"
+            className="absolute h-auto w-20 right-6 top-[520px]"
+            style={{
+              transform: 'perspective(400px) rotateY(-35deg) rotateX(40deg)',
+            }}
+          />
           <header className="flex items-center gap-2 relative">
             <h1 className="text-base">Configuraciónes</h1>
             <div className="group">
@@ -274,11 +299,24 @@ export const Editar = () => {
         <div className="px-6 pb-6 flex justify-between items-center">
           <div className="flex gap-4">
             <button
-              className="py-2 px-4 border border-orange-600 active:border-orange-500 rounded-md flex gap-2"
+              className={`py-2 px-4 border border-orange-600 active:border-orange-500 rounded-md flex gap-2 bg-neutral-900 ${creepster.className} text-gray-300`}
               onClick={handleGenerar}
             >
               Generar
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z"/><path d="M16 18a2 2 0 0 1 2 2 2 2 0 0 1 2-2 2 2 0 0 1-2-2 2 2 0 0 1-2 2zm0-12a2 2 0 0 1 2 2 2 2 0 0 1 2-2 2 2 0 0 1-2-2 2 2 0 0 1-2 2zM9 18a6 6 0 0 1 6-6 6 6 0 0 1-6-6 6 6 0 0 1-6 6 6 6 0 0 1 6 6z"/></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" />
+                <path d="M16 18a2 2 0 0 1 2 2 2 2 0 0 1 2-2 2 2 0 0 1-2-2 2 2 0 0 1-2 2zm0-12a2 2 0 0 1 2 2 2 2 0 0 1 2-2 2 2 0 0 1-2-2 2 2 0 0 1-2 2zM9 18a6 6 0 0 1 6-6 6 6 0 0 1-6-6 6 6 0 0 1-6 6 6 6 0 0 1 6 6z" />
+              </svg>
             </button>
             {imgPreview !== url && topic !== 'custom' && (
               <button
@@ -306,11 +344,24 @@ export const Editar = () => {
             )}
           </div>
           <button
-            className="py-2 px-4 border border-orange-600 active:border-orange-500 rounded-md flex gap-2"
+            className={`py-2 px-4 border border-orange-600 active:border-orange-500 rounded-md flex gap-2 bg-neutral-900 ${creepster.className} text-gray-300`}
             onClick={() => downloadImage()}
           >
             Descargar
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 11l5 5 5-5M12 4v12"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" />
+              <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 11l5 5 5-5M12 4v12" />
+            </svg>
           </button>
         </div>
       </aside>

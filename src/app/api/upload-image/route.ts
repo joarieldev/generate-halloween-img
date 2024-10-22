@@ -31,7 +31,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true, result })
   } catch (error) {
-    console.error('Error saving image:', error)
     return NextResponse.json({ success: false, message: 'Error saving image' })
   }
 }

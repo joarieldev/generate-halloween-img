@@ -72,7 +72,7 @@ export const Upload = () => {
           className="cursor-pointer mb-4"
         >
           <svg
-            className="w-8 h-8 text-gray-300"
+            className="size-9 max-md:size-8 text-gray-300"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

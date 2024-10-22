@@ -5,7 +5,7 @@ import { creepster } from '@/app/fonts/fonts'
 
 export default async function Home() {
   return (
-    <div className="flex flex-col items-center gap-16 font-[family-name:var(--font-geist-sans)] p-8  relative">
+    <div className="flex flex-col items-center gap-16 min-h-screen font-[family-name:var(--font-geist-sans)] p-8  relative">
       <main className="flex flex-col gap-8 items-center justify-center w-full max-w-screen-lg">
         <section className="relative w-full h-auto my-8">
           <h1
@@ -66,7 +66,7 @@ export default async function Home() {
         </a>
         <p>Creado por @joarieldev</p>
       </footer>
-      <div className="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,rgba(255,255,255,0)_40%,rgba(120,119,198,0.3)_100%)]"></div>
+      <div className="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_15%,rgba(255,255,255,0)_40%,rgba(120,119,198,0.3)_100%)]"></div>
     </div>
   )
 }
