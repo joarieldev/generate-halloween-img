@@ -22,7 +22,7 @@ export const List = () => {
     const fetch = async () => {
       setIsLoading(true)
       const res = await getImages().finally(() => setIsLoading(false))
-      setImages(res.resources)
+      setImages(res.resources as unknown as IImage[])
     }
     fetch()
   }, [])

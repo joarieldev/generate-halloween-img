@@ -69,7 +69,7 @@ export const TwoUp = ({ imgOriginal, imgPreview }: Props) => {
     }
   }, [isDragging, startX, startY, imgX, imgY])
 
-  const videoRef = useRef(null)
+  const videoRef = useRef<HTMLVideoElement | null>(null)
   const [isVideo, setIsVideo] = useState(false)
   useEffect(() => {
     if (imgPreview.includes('.mp4')) {
