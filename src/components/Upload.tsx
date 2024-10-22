@@ -3,8 +3,9 @@
 import { useRouter } from 'next/navigation'
 import { FileDrop } from 'react-file-drop'
 import { useRef, useState } from 'react'
-import { Loading } from './Loading'
+import { BgLoading } from './BgLoading'
 import { BgDrag } from './BgDrag'
+import { toast, Toaster } from 'sonner'
 
 export const Upload = () => {
   const router = useRouter()
@@ -29,16 +30,14 @@ export const Upload = () => {
       })
 
       const data = await res.json()
-      console.log(data)
 
       router.push(`/edit/${data.result.public_id}`)
 
       setLoading(false)
       body.style.overflow = ''
 
-      console.log(true)
     } else {
-      console.log(false)
+      toast.warning('No se pudo cargar la imagen')
     }
   }
 
@@ -50,6 +49,7 @@ export const Upload = () => {
 
   return (
     <>
+      <Toaster position="top-right" richColors />
       <div className="flex flex-col items-center justify-center pt-5 pb-6">
         <FileDrop
           onFrameDragEnter={() => {
@@ -72,7 +72,7 @@ export const Upload = () => {
           className="cursor-pointer mb-4"
         >
           <svg
-            className="w-8 h-8 text-gray-500 dark:text-gray-400"
+            className="w-8 h-8 text-gray-300"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -87,7 +87,7 @@ export const Upload = () => {
             />
           </svg>
         </FileDrop>
-        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+        <p className="mb-2 text-sm text-gray-300">
           <span className="font-semibold">Haga clic para cargar</span> o
           arrastre y suelte
         </p>
@@ -101,7 +101,7 @@ export const Upload = () => {
         />
       </div>
       {frameDrag && <BgDrag />}
-      {loading && <Loading />}
+      {loading && <BgLoading />}
     </>
   )
 }

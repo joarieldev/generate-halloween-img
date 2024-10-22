@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fontsource/creepster": "^5.1.0",
     "cloudinary": "^2.5.1",
     "next": "14.2.15",
     "next-cloudinary": "^6.14.2",

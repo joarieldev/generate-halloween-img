@@ -1,7 +1,10 @@
 export const Loading = () => {
   return (
-    <div className="fixed top-0 left-0 w-full min-h-screen bg-black/70 z-10 grid place-items-center">
-      Loading....
-    </div>
+    <div className="h-38 grid place-items-center">
+    <span className="flex flex-col justify-center items-center">
+      <img src="/velas.webp" alt="velas" className="h-auto w-24 animate-parpadeo pointer-events-none" />
+      <p className="text-gray-300 text-xs">Cargando...</p>
+    </span>
+  </div>
   )
 }
