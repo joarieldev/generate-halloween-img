@@ -5,7 +5,7 @@ import { FileDrop } from 'react-file-drop'
 import { useRef, useState } from 'react'
 import { BgLoading } from './BgLoading'
 import { BgDrag } from './BgDrag'
-import { toast, Toaster } from 'sonner'
+import { toast } from 'sonner'
 
 export const Upload = () => {
   const router = useRouter()
@@ -49,7 +49,6 @@ export const Upload = () => {
 
   return (
     <>
-      <Toaster position="top-right" richColors />
       <div className="flex flex-col items-center justify-center pt-5 pb-6">
         <FileDrop
           onFrameDragEnter={() => {

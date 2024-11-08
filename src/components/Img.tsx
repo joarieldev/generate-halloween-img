@@ -4,16 +4,16 @@ import { CldImage } from 'next-cloudinary'
 
 interface Props {
   image: IImage
-  handleDelete: (id: string) => void
+  setModal: React.Dispatch<React.SetStateAction<{ open: boolean; idImg: string }>>
 }
 
-export const Img = ({ image, handleDelete }: Props) => {
+export const Img = ({ image, setModal }: Props) => {
   return (
     <div className="border border-gray-300 relative rounded-lg size-40 max-md:size-32 group overflow-hidden">
       <button
         className="px-2 absolute rounded-lg top-0 right-0 bg-red-700 hover:bg-red-600 z-10"
         title="eliminar"
-        onClick={() => handleDelete(image.public_id)}
+        onClick={() => setModal({ open: true, idImg: image.public_id })}
       >
         ×
       </button>

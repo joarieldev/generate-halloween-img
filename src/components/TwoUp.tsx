@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { toast, Toaster } from 'sonner'
+import { toast } from 'sonner'
 import 'two-up-element'
 import { useMediaQuery } from 'react-responsive';
 
@@ -152,7 +152,6 @@ export const TwoUp = ({ imgOriginal, imgPreview }: Props) => {
 
   return (
     <>
-      <Toaster position="top-right" richColors />
       <section ref={containerRef} className="min-h-screen overflow-hidden">
         <two-up orientation={isMobile ? 'vertical' : 'horizontal'}>
           <div className="min-h-screen w-screen grid place-items-center">
